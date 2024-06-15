@@ -35,6 +35,8 @@ const login = asyncHandler(async (req, res) => {
         return res.status(401).json(new ApiError(401,"Invalid email or password"));
     }
     const token = await user.generateToken();
+    user.token = token
+    await user.save();
     return res.status(200).cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
