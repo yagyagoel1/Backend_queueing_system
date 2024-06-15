@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
-import cluster from "node:cluster";
-import {cpus} from "node:os";
 import { Logger } from "./utils/logger.js";
 
 dotenv.config({
@@ -15,32 +13,17 @@ connectDB()
       app.on("error", () => {
         throw error;
       });
-      if(cluster.isPrimary)
-      {
-        const cpuCount = cpus().length
-        for(let i = 0; i<cpuCount;i++)
-        {
-          cluster.fork()
-        }
-        cluster.on('exit', (worker, code, signal) => {
-          logger.error(`Worker ${worker.process.pid} died with code ${code} and signal ${signal}`);
-          cluster.fork();
-        });
-      }
-      else
-      {
-        app.listen(process.env.PORT, () => {
-          logger.info(`Worker ${process.pid} started and listening on port ${process.env.PORT}`);
-        });
-      }
-
+      app.listen(process.env.PORT || 8000, () => {
+        console.log(`server is running at port: ${process.env.PORT}`);
+      });
     } catch (err) {
-      logger.error("something went wrong while working initalizing the worker threads " + err);
+      console.error("something went wrong while connecting express " + err);
     }
   })
   .catch((err) => {
-    logger.error("database connection failed" + err);
+    console.log("database connection failed" + err);
   });
+
 /*
 import  express  from "express";
 const app = express();

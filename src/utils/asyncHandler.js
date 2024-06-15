@@ -1,5 +1,4 @@
-import { Logger } from "./logger";
-
+import { logger } from "../index.js";
   
 const asyncHandler = (fn)=>async (req,res,next)=>{
       try {
@@ -11,7 +10,7 @@ const asyncHandler = (fn)=>async (req,res,next)=>{
               message : "internal server error"
           })
           //store the user info 
-          Logger.error(error.message)
+          logger.error(error.message,error)
       }
   }
   export { asyncHandler };

@@ -21,7 +21,7 @@ const activeRequests = new prometheus.Gauge({
 const failedRequests = new prometheus.Counter({
   name: 'http_failed_requests_total',
   help: 'Total number of failed HTTP requests',
-  labelNames: ['method', 'route'],
+  labelNames: ['method', 'route','status'],
 });
 
 const middleware = (req, res, next) => {
@@ -29,7 +29,7 @@ const middleware = (req, res, next) => {
     const route = `${req.baseUrl}${req.path}`;
     const labels = { method: req.method, route, status: res.statusCode };
 
-    httpRequestDurationMicroseconds.labels(labels).observe(Date.now() - req.startTime);
+    httpRequestDurationMicroseconds.labels(labels).observe(Date.now() - req.startTime);//in microseconds
     httpRequestsTotal.labels(labels).inc();
     activeRequests.inc();
     if (res.statusCode >= 400) {
