@@ -11,6 +11,7 @@ const asyncHandler = (fn)=>async (req,res,next)=>{
           })
           //store the user info 
           logger.error(error.message,error)
+          console.log(error.response.data)
       }
   }
   export { asyncHandler };
