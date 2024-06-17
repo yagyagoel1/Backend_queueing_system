@@ -9,6 +9,7 @@ services:
       NODE_ENV: production
       PORT: 8000
       TOKEN_SECRET: your_token_secret
+      TOKEN_EXPIRY: 356d
       MONGODB_URL: mongodb://mongo:27017/
       CORS_ORIGIN: http://localhost:4000
       METRICS_PASSWORD: your_metrics_password
