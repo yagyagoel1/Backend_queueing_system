@@ -25,13 +25,14 @@ const failedRequests = new prometheus.Counter({
 });
 
 const middleware = (req, res, next) => {
+  activeRequests.inc();
   res.on('finish', () => {
     const route = `${req.baseUrl}${req.path}`;
     const labels = { method: req.method, route, status: res.statusCode };
 
     httpRequestDurationMicroseconds.labels(labels).observe(Date.now() - req.startTime);//in microseconds
     httpRequestsTotal.labels(labels).inc();
-    activeRequests.inc();
+    activeRequests.dec();
     if (res.statusCode >= 400) {
       failedRequests.labels(labels).inc();
     }

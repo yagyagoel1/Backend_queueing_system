@@ -23,7 +23,6 @@ function processUserQueue(userId) {
         const worker = new Worker(userId, async (job) => {
             // Simulate processing the job (replace with actual processing logic)
             logger.info(`Processing job ${job.id} for user ${userId}`);
-            console.log(JSON.stringify(job.data))
             if(job.data.task=="A"){
                 console.log("Task A")
             await new Promise((resolve) => setTimeout(resolve, 5000));
