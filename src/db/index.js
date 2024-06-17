@@ -4,6 +4,10 @@ import { logger } from "../index.js";
 
 const connectDB = async () => {
   try {
+    if(process.env.TEST)
+      {
+        DB_NAME="test"
+      }
     const connectionInstance = await mongoose.connect(
       `${process.env.MONGODB_URL}${DB_NAME}`
     );

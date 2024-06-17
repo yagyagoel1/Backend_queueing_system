@@ -1,5 +1,6 @@
 import { Queue, Worker } from 'bullmq';
 import { redisConnection } from '../constants.js';
+import { logger } from '../index.js';
 
 const connection = redisConnection
 const userQueues = new Map(); // Map to hold queues for each user
@@ -21,9 +22,22 @@ function processUserQueue(userId) {
     if (!userQueues.get(userId).worker) {
         const worker = new Worker(userId, async (job) => {
             // Simulate processing the job (replace with actual processing logic)
-            console.log(`Processing job ${job.id} for user ${userId}`);
+            logger.info(`Processing job ${job.id} for user ${userId}`);
+            console.log(JSON.stringify(job.data))
+            if(job.data.task=="A"){
+                console.log("Task A")
             await new Promise((resolve) => setTimeout(resolve, 5000));
-            console.log(`Job ${job.id} completed for user ${userId}`);
+            }
+            else if(job.data.task=="B"){
+                console.log("Task B")
+
+            await new Promise((resolve) => setTimeout(resolve,3000));
+            }
+            else if(job.data.task=="C"){
+                console.log("Task C")
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            }     
+            logger.info(`Job ${job.id} completed for user ${userId}`);
         }, { connection });
 
         userQueues.get(userId).worker = worker;
@@ -38,7 +52,7 @@ function processUserQueue(userId) {
                     await userQueue.close();
                     userQueues.delete(userId);
                     inactivityTimers.delete(userId);
-                    console.log(`All jobs completed for user ${userId}. Queue deleted after inactivity.`);
+                    logger.info(`All jobs completed for user ${userId}. Queue deleted after inactivity.`);
                 }, 10 * 60 * 1000);
 
                 inactivityTimers.set(userId, timer);
@@ -47,7 +61,14 @@ function processUserQueue(userId) {
 
         // Handle worker errors
         worker.on('failed', (job, err) => {
-            console.error(`Job ${job.id} failed for user ${userId}:`, err);
+            logger.error(`Job ${job.id} failed for user ${userId}:`, err);
+            logger.error(`${JSON.stringify(job.data)}`)
+            //store the job
+
+        });
+        worker.on('error', (err) => {
+            logger.error(`Worker error for user ${userId}:`, err);
+            logger.error(`${JSON.stringify(job.data)}`)
         });
     }
 }
