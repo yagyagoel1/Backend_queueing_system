@@ -6,7 +6,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 });
 
 const Logger = () => {
-  return createLogger({
+  return process.env.TEST ||process.env.NODE_ENV !== 'PROD'?createLogger({
     level: 'info',
     format: combine(
         colorize(),
@@ -14,11 +14,23 @@ const Logger = () => {
       timestamp(),
       myFormat
     ),
-    transports: [
-      new transports.Console(),
-      new transports.File({ filename: '.logs/error.log', level: 'error' }),
-      new transports.File({ filename: '.logs/combined.log' })
-    ]
+    
+      transports: [ new transports.File({ filename: '.logs/error.log', level: 'error' }),
+        new transports.File({ filename: '.logs/combined.log' })
+      ],
+  }):createLogger({
+    level: 'info',
+    format: combine(
+      label({ label: 'Queue System' }),
+      timestamp(),
+      myFormat
+    ),
+    
+      transports: [ 
+         
+          new transports.Console(), new transports.File({ filename: '.logs/error.log', level: 'error' }),
+        new transports.File({ filename: '.logs/combined.log' })
+      ],
   });
 };
 

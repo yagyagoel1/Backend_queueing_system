@@ -13,7 +13,7 @@ services:
       MONGODB_URL: mongodb://mongo:27017/
       CORS_ORIGIN: http://localhost:4000
       METRICS_PASSWORD: your_metrics_password
-      REDIS_HOST: "redis"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
     depends_on:
       - mongo

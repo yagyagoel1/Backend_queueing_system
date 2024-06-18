@@ -21,19 +21,19 @@ function processUserQueue(userId) {
 
     if (!userQueues.get(userId).worker) {
         const worker = new Worker(userId, async (job) => {
-            // Simulate processing the job (replace with actual processing logic)
+            // Simulate processing the job 
             logger.info(`Processing job ${job.id} for user ${userId}`);
             if(job.data.task=="A"){
-                console.log("Task A")
+                logger.info("Task A")
             await new Promise((resolve) => setTimeout(resolve, 5000));
             }
             else if(job.data.task=="B"){
-                console.log("Task B")
+                logger.info("Task B")
 
             await new Promise((resolve) => setTimeout(resolve,3000));
             }
             else if(job.data.task=="C"){
-                console.log("Task C")
+                logger.info("Task C")
             await new Promise((resolve) => setTimeout(resolve, 1000));
             }     
             logger.info(`Job ${job.id} completed for user ${userId}`);
