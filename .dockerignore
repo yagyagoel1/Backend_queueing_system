@@ -1,3 +1,10 @@
 node_modules
 dist
 coverage
+tests
+.prettierignore
+.prettierrc
+.eslintrc
+.gitignore
+README.md
+jest.config.js

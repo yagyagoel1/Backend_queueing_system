@@ -10,8 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+USER node
 # Copy the rest of the application code
-COPY . .
+COPY --chown=node:node . .
 
 # Expose the port the app runs on
 EXPOSE 8000

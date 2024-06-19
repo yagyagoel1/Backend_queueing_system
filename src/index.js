@@ -4,7 +4,7 @@ import { app } from "./app.js";
 import { Logger } from "./utils/logger.js";
 
 dotenv.config({
-  path: "../env",
+  path: "../.env",
 });
 export const logger = Logger();
 connectDB()
