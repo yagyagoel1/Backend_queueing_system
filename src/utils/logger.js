@@ -6,7 +6,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 });
 
 const Logger = () => {
-  return process.env.TEST ||process.env.NODE_ENV !== 'PROD'?createLogger({
+  return process.env.TEST ||process.env.NODE_ENV == 'PROD'?createLogger({
     level: 'info',
     format: combine(
         colorize(),

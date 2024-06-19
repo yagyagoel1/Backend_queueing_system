@@ -24,6 +24,7 @@ function processUserQueue(userId) {
             // Simulate processing the job 
             logger.info(`Processing job ${job.id} for user ${userId}`);
             if(job.data.task=="A"){
+                console.log("task a");
                 logger.info("Task A")
             await new Promise((resolve) => setTimeout(resolve, 5000));
             }
@@ -36,6 +37,7 @@ function processUserQueue(userId) {
                 logger.info("Task C")
             await new Promise((resolve) => setTimeout(resolve, 1000));
             }     
+            console.log(`Job ${job.id} completed for user ${userId}`)
             logger.info(`Job ${job.id} completed for user ${userId}`);
         }, { connection });
 
