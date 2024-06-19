@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { app } from '../app';
+import { app } from '../src/app';
 import mongoose from 'mongoose';
-import User from '../models/user.model';
+import User from '../src/models/user.model';
 
 let authToken = '';
 
